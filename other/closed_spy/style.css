@@ -1,0 +1,37 @@
+html {
+	background: #f1f1f1;
+}
+a {
+	color: #5783ad;
+}
+body {
+	background: #fff;
+	margin: 22px auto;
+	width: 744px;
+	padding: 22px;
+	text-align: center;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: #464646;
+	-moz-border-radius: 20px;
+	-khtml-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+}
+h2 {
+	font-size: 3em;
+	font-weight: normal;
+}
+#numnumnum, #numnumnum2 {
+	background-color: white;
+}
+#numnumnum2 {
+	display: none;
+}
+#wrap {
+	position: relative;
+	height: 1em;
+	font-size: 9.5em;
+	font-weight: normal;
+	color: black;
+}
+

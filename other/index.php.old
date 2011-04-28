@@ -1,0 +1,30 @@
+<?php
+include('functions.php');
+include('include/header.php');
+?>
+<table cellspacing="0" cellpadding="0" border="0" bgcolor="#cccccc" height="100%" width="90%">
+<tr>
+<!-- Beging Left Column -->
+<td VALIGN="top" bgcolor="white" width="30%">
+<center><br>
+<br>
+<?php include("deptcc.php");?>
+<br><br>
+<div style="border: 1px dotted #ccc;">
+<br>Looking to have AGDash at your fingertips? then <a href="http://denbox/agdashwin">Download AGDashWin</a> for your desktop.<br><br>
+</div>
+</center>
+</td>
+<!-- Beging Right Column -->
+<td VALIGN="top" bgcolor="white" width="70%">
+<center>
+<br><br>
+<img align="center" src="img/totals.png">
+</center>
+</td>
+</tr>
+</table>
+</center>
+<?php
+include('include/footer.php');
+?>

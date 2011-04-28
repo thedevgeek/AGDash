@@ -1,0 +1,16 @@
+<html>
+<head>
+<script src="js/jquery.js"></script>
+ 
+<script>
+var refreshId = setInterval(function()
+{
+     $('#ticketcontainer').fadeOut("slow").load('ms_callcount.php').fadeIn("slow");
+}, 10000);
+</script>
+</head>
+<body>
+ 
+<div id="ticketcontainer">
+</div>
+</body>

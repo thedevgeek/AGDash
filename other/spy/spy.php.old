@@ -1,0 +1,20 @@
+<?php
+include('../config.php');
+$dbconnect = mysql_connect($dbhost, $dbuser, $dbpass);
+if (!$dbconnect) {
+   die('Could not connect: ' . mysql_error());
+}
+mysql_select_db($dbase) or die( "Unable to select database<br>");
+$result = mysql_query("SELECT * FROM employees WHERE dept='InfoGenesis POS' ORDER BY `tickets` DESC") or die('Query failed: ' . mysql_error());
+// $result = mysql_query("SELECT * FROM dept ORDER BY `tickets` DESC") or die('Query failed: ' . mysql_error());
+$row = mysql_fetch_array($result);
+// print_r ($row);
+echo <<<HERE_DOC
+{
+//	'string': '$row[1]',
+//	'num': '$row[2]'
+	'string': '$row[2]',
+	'num': '$row[3]'
+}
+HERE_DOC;
+?>

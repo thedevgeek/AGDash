@@ -1,0 +1,90 @@
+body,td,th {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333333;
+}
+body {
+	background-color: #FFFFFF;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+a {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #0033FF;
+}
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #0033FF;
+}
+a:hover {
+	text-decoration: none;
+	color: #0000FF;
+}
+a:active {
+	text-decoration: none;
+	color: #0033FF;
+}
+.headertxt {
+	font-size: 16px;
+	color: #FFFFFF;
+}
+.navmenu {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	position: fixed;
+	right: 5;
+	top: 15px;
+	padding: 0em;
+	color: #FFF;
+	bottom: 1;
+	display: block;
+	height: 28px;
+	text-decoration: none;
+}
+.navmenu a {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFF;
+	font-weight: bold;  
+	text-decoration: underline;
+}
+.navmenu a:link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFF;
+	font-weight: bold;  
+	text-decoration: underline;
+}
+.navmenu a:visited {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFF;
+	font-weight: bold;  
+	text-decoration: underline;
+}
+.navmenu a:active {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFF;
+	font-weight: bold;  
+	text-decoration: underline;
+}
+.navmenu a:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFF;
+	font-weight: bold;  
+	text-decoration: none;
+}
+
+tr.cclist td {
+	background-color: #fff; 
+	border-bottom: 1px dotted #ccc;
+	color: #333;
+}

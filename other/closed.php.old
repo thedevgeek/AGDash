@@ -1,0 +1,48 @@
+<?php
+// Include Config File
+include('config.php');
+
+// Get date, and set all time vars
+$today_date = date("Y-m-d");
+$start_date = $today_date;
+$end_date = $today_date;
+$current_time = date("G:i:s");
+$start_time = "00:00:00";
+$end_time = "23:59:59";
+
+// Setup Vars
+$total_closed = "";
+
+// Connect to MySQL or error
+$mydbconnect = mysql_connect($dbhost, $dbuser, $dbpass);
+if (!$mydbconnect) {die('Could not connect: ' . mysql_error());}
+
+// Connect to MsSQL or error, then select Database, then Query
+$msdbconnect = mssql_connect($msdbhost, $msdbuser, $msdbpass);
+if (!$msdbconnect) {die('Could not connect: ' . mssql_error());}
+$selected = mssql_select_db($msdbase) or die("Could not open database $msdbase"); 
+$result = mssql_query("select distinct(groupname),Assignee,COUNT(ClosedBy) as 'ClosedCount' from Asgnmnt join calllog on asgnmnt.callid=calllog.callid where CallLog.CallStatus = 'Closed' and (asgnmnt.dateresolv between '$start_date' and '$end_date') and (ClosedDate between '$start_date' and '$end_date') and (ClosedTime between '$start_time' and '$end_time') AND whoresolv IS NOT NULL group by Assignee,groupname order by ClosedCount DESC");
+
+// Crapy temp header
+echo '<h2>Closed Calls from ' . $start_date . ' - ' . $today_date . '<br>';
+echo $start_time . ' - ' . $end_time . '<br></h2>';
+echo 'This information updates from the HEAT replicated Database, so it will be off by about 15 minutes<br><br>';
+
+// Loop through the results and display to screen
+while ($row = mssql_fetch_row($result)) {
+
+	// Set Vars for loop
+	$heat_name = $row[1];
+
+	// Match heat name to users real name
+	mysql_select_db($dbase) or die( "Unable to select database<br>");
+	$myresult = mysql_query("SELECT * FROM employees WHERE name='$heat_name'") or die('Query failed: ' . mysql_error());
+	$myrow = mysql_fetch_array( $myresult );
+
+	$total_closed = $total_closed + $row[2];
+
+	// Print Information to Screen
+	echo 'Employee: <b>' . $myrow[2] . '</b> (<i>' . $row[1] . '</i>), Tickets: <u>' . $row[2] . '</u><br>';
+}
+echo '<hr>Total Closed: ' . $total_closed;
+?>

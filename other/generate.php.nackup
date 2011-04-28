@@ -1,0 +1,97 @@
+<?php
+// Include Files
+include('functions.php');
+include("pChart/pData.class");  
+include("pChart/pChart.class");  
+
+// Clear Employee Call Counts
+mySQL_conn($dbhost, $dbase, $dbuser, $dbpass);
+
+// Zero Employees/Department
+zero_emp($result);
+zero_dept($result);
+
+// Connect to MsSQL or error, then Select
+msSQL_conn($msdbhost, $msdbase, $msdbuser, $msdbpass);
+$result = mssql_query("select Groupname,Assignee,count(distinct asgnmnt.callid) as boxcount from Asgnmnt inner join calllog on asgnmnt.callid=calllog.callid and whoresolv='' where calllog.callstatus = 'Open' or calllog.callstatus = 'Reopened' group by Groupname,Assignee order by boxcount DESC");
+
+// Query Database for departments and create array of departments
+$dept_query = "SELECT * FROM `dept`";
+$dept_result = mysql_query($dept_query) or die('Query failed: ' . mysql_error());
+while($dept_row = mysql_fetch_array($dept_result)){
+	$dept_array[$dept_row['name']] = 1;
+}
+
+// Process information one employee at a time, matching to a department.
+while ($row = mssql_fetch_row($result)) {
+if($dept_array[$row[0]]) {
+
+        mySQL_conn($dbhost, $dbase, $dbuser, $dbpass);
+        $updatedb = "UPDATE employees SET tickets='$row[2]' WHERE name='$row[1]' AND dept='$row[0]'";
+        mysql_query($updatedb);
+
+	// Setup Department name
+	$dept_name = $row[0];
+	$dept_ticket_add = $row[2];
+
+	// Query Database
+	$dept_ticket_result = mysql_query("SELECT * FROM `dept` WHERE `name` = '$dept_name'") or die('Query failed: ' . mysql_error());
+
+	// Fetch Current Ticket count and update 
+	$dept_tickets = mysql_fetch_array($dept_ticket_result) or die(mysql_error());
+	$new_count = $dept_tickets['tickets'] + $dept_ticket_add;
+	$dept_ticket_update = mysql_query("UPDATE `dept` SET `tickets` =  '$new_count' WHERE `name` = '$dept_name' LIMIT 1") or die('Query failed: ' . mysql_error());
+}
+}
+echo "Employee ticket counts have been increased.<br>";
+
+$dept_query = "SELECT * FROM `dept`";
+$dept_result = mysql_query($dept_query) or die('Query failed: ' . mysql_error());
+
+// Create Pie Charts
+while($dept_row = mysql_fetch_array($dept_result)){
+echo "Creating pie chart for " . $dept_row[1] . "<br>";
+include('chart_hot_fix.php');
+
+// Init Arrays
+$namelist = array();
+$ticketlist = array();
+
+// Query Database
+$result = mysql_query("SELECT * FROM employees WHERE dept='$dept_row[1]' ORDER BY `tickets` DESC") or die('Query failed: ' . mysql_error()); 
+
+// Print the results of the Query (#, title, url)
+$i = 0;
+while(($row = mysql_fetch_array($result)) !== false)
+{
+$i++;
+if ($row[3] < 1) {
+        // do nothing
+} else {
+// echo $row[1] . " " . $row[2] . " " .  $row[3] . "<br>";
+         array_push($namelist, $row[2]);
+         array_push($ticketlist, $row[3]);
+}
+}
+
+// Dataset definition   
+$DataSet = new pData;  
+$DataSet->AddPoint(array($ticketlist),"Serie1");  
+$DataSet->AddPoint(array($namelist),"Serie2");  
+$DataSet->AddAllSeries();  
+$DataSet->SetAbsciseLabelSerie("Serie2");  
+ 
+// Initialise the graph
+$Test = new pChart(570,400);
+$Test->loadColorPalette("pChart/color2.txt");
+$Test->drawFilledRoundedRectangle(7,7,567,341,5,240,240,240);
+$Test->drawRoundedRectangle(5,5,569,343,5,230,230,230);
+
+// Draw the pie chart
+$Test->setFontProperties("pChart/fonts/tahoma.ttf",8);
+$Test->drawPieGraph($DataSet->GetData(),$DataSet->GetDataDescription(),225,130,175,PIE_PERCENTAGE,TRUE,50,20,5);
+$Test->drawPieLegend(437,12,$DataSet->GetData(),$DataSet->GetDataDescription(),250,250,250);
+$Test->Render("img/$dept_row[3]");  
+}
+echo "Update Complete.<br>";
+?>

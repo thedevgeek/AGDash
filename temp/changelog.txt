@@ -1,0 +1,65 @@
+Release  	   	Release notes
+
+v2.1.1rc1
+Combined quickcache.php and quickcache_config.php into one file
+Minor changes for PHP5 compliance (tested with PHP4 & 5.2.4)
+With 2.1.1rc1, zLib compression does not have to be enabled on server
+  (use included .htaccess file to enable)
+
+v2.1.0rc1
+Fixed bug with CGI-PHP
+Set file type cache as default
+Modified mysql-type configuration settings
+Modified use of cache type configuration settings
+Clarified use of cache directory, base directory
+Fixed errors in 'readme' file, i.e. path settings, debug variable
+Completed renaming from jpcache to QuickCache
+
+v2
+Added CLEANKEYS-setting to recognize cachefiles origin.
+Fixed bug with IIS and IF_NONE_MATCH
+ 
+v2.0.0 (rc1)
+Major code-rewrite (cleaner code, consistent naming, etc.)
+Added template system
+Serveral bug-fixes concerning Windows and multithreaded ISAPI-alike systems
+Fixed bug with writing invalid cache-data if user aborts connection.
+Better and faster file-locking
+ 
+v1.1.1
+Now compatible with php 4.0.5
+ 
+v1.1.0
+Added MySQL storage
+ 
+v1.0.4
+Bugfix: restored a line that was accidently removed.
+Added better debugging possibilities.
+ 
+v1.0.3
+Merged codeblocks
+Bugfix with garbagecollection
+Finalized file-based caching, started sql-version.
+ 
+v1.0.2
+Code cleanup
+Additional options for caching (Thanks Tim)
+ 
+v1.0.1
+Fixed bug about not returning data upon initialization
+Better way of handling callback
+It's now possible to do just the content-encoding
+ 
+v1.0.0
+Huge code-cleanup
+No longer needed to call jpCacheEnd yourself: now uses callback
+ 
+v0.9.2
+Single site logging by default
+Code cleanup, eregi->strpos for cache_gc (Thanks Paul)
+ 
+v0.9.1
+Changed ETAG to be RFC complaint
+ 
+v0.9.0
+First public release
